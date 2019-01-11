@@ -1,7 +1,7 @@
 [TOC]
 
 -----
-### 1. 问题的提出
+# 1. 问题的提出
 假设你是一名房地产经纪人，你的生意蒸蒸日上，因此你雇了一批新员工来帮忙。但是问题来了——虽然你可以一眼估算出房子的价格，
 但新员工却不像你这样经验丰富，他们不知道如何给房子估价。
 
@@ -20,7 +20,7 @@
 
 为了帮助你的新员工（也许就是为了给自己放个假），你决定使用TensorFlow写一个可以根据房屋卧室数量、房屋面积以及阳台
 面积等因素来评估一间房屋的价格的ML程序。
-### 2. TensorFlow解决思路
+# 2. TensorFlow解决思路
 这个问题要解决的就是找到成交价（Prize）和卧室数量（RoomNum）、房屋面积（AreaHouse）、阳台面积（AreaBalcony）
 之间的关系。就像是小学时做的数学测验：
 ![6c0309b17764fcd1d415b3989e39e58a.jpeg](evernotecid://0F7C84DB-9663-4FC7-B768-B8A6DD0BD29F/appyinxiangcom/20498392/ENNote/p145?hash=6c0309b17764fcd1d415b3989e39e58a)
@@ -31,11 +31,11 @@
 * 规划神经网络
 * 利用TensorFlow框架建模分析
 * 测试
-#### 2.1 准备数据
+## 2.1 准备数据
 本次的训练数据（测试数据）是一张excel表，如下图所示：
 ![1b21b7daad58461e7c007acc94253919.png](evernotecid://0F7C84DB-9663-4FC7-B768-B8A6DD0BD29F/appyinxiangcom/20498392/ENResource/p436)
-#### 2.2 规划神经网络
-##### 2.2.1 神经网络架构
+## 2.2 规划神经网络
+### 2.2.1 神经网络架构
 * 输入层：
 有卧室数量、房屋面积、阳台面积三个参数，所以，输入层3个神经元；
 * 隐含层：
@@ -43,7 +43,7 @@
 * 输出层
 只有成交价1个输出，所以，1个神经元。
 ![799d7d7aa0b1dea97ea6d463ecb5b8df.png](evernotecid://0F7C84DB-9663-4FC7-B768-B8A6DD0BD29F/appyinxiangcom/20498392/ENResource/p437)
-##### 2.2.2 激活函数与代价计算
+### 2.2.2 激活函数与代价计算
 * 激活函数
 选用relu（）函数，relu是广泛使用的激活函数，关于relu函数请参考机器学习的相关介绍；
 * 代价计算
@@ -51,8 +51,8 @@
 ```math
 cost = E(y - y')^{2}
 ```
-#### 2.3 利用TensorFlow框架建模
-##### 2.3.1 导入tensorflow以及几个常用python包
+## 2.3 利用TensorFlow框架建模
+### 2.3.1 导入tensorflow以及几个常用python包
 ```python
 #-*- coding:utf-8 -*-
 from __future__ import division
@@ -65,7 +65,26 @@ import xlrd
 import argparse
 import os
 ```
-##### 2.3.2 编写读取Excel表数据函数
+### 2.3.2 编写读取Excel表数据函数
+```python
+# 读取数据
+def parse_excel(excel_path):
+    data = xlrd.open_workbook(excel_path)
+    table = data.sheets()[0]
+    rows = table.nrows
+    cols = table.ncols
+    X_train = []
+    y_train = []
+    for i in range(1, rows):
+        line = table.row_values(i)
+        X_train.append(line[:-1])
+        y_train.append(line[-1])
+    X_train = np.array(X_train).astype(np.float32)
+    y_train = np.array(y_train).astype(np.float32)
+    y_train = y_train[:, np.newaxis]
+    return X_train, y_trai
+```
+### 2.3.2 编写建立神经网络函数
 ```python
 def build_net():
     w1 = tf.Variable(tf.random_normal([3, 20]), name='w1')
@@ -80,7 +99,7 @@ def build_net():
     return y_
 
 ```
-##### 2.3.4 设置运行参数
+### 2.3.4 设置运行参数
 ```python
 # 设置运行参数
 parser = argparse.ArgumentParser()
@@ -111,7 +130,7 @@ if not os.path.exists(args.save_folder):
 
 ```
 
-##### 2.3.5 获取数据并利用tensorflow加工
+### 2.3.5 获取数据并利用tensorflow加工
 ```python
 X_train, y_train = parse_excel(args.excel_path)
 
@@ -122,7 +141,7 @@ dataset = dataset.repeat(args.epoches)
 iterator = dataset.make_one_shot_iterator()
 one_element = iterator.get_next()
 ```
-##### 2.3.6 建立Tensorflow数据流图
+### 2.3.6 建立Tensorflow数据流图
 ```python
 x = tf.placeholder(tf.float32, [None, 3],name='input')
 y = tf.placeholder(tf.float32, [None, 1],name='lable')
@@ -141,7 +160,7 @@ config.gpu_options.allow_growth = True
 
 saver = tf.train.Saver()
 ```
-##### 2.3.7 运行tensorflow并保存训练模型
+### 2.3.7 运行tensorflow并保存训练模型
 ```python
 with tf.Session(config=config) as sess:
     sess.run(init)
@@ -166,8 +185,8 @@ with tf.Session(config=config) as sess:
 ```
 
 
-#### 2.4 测试
-##### 2.4.1 导入必要包
+## 2.4 测试
+### 2.4.1 导入必要包
 ```python
 #-*- coding:utf-8 -*-
 from __future__ import division
@@ -179,7 +198,7 @@ import numpy as np
 import os
 
 ```
-##### 2.4.2 输入测试数据以及载入训练好的模型
+### 2.4.2 输入测试数据以及载入训练好的模型
 ```python
 os.environ['CUDA_VISIBLE_DEVICES'] = '0' 
 x_data = np.array([[4,136,22],[2,137,27],[5,127,18]])
@@ -190,7 +209,7 @@ input_checkpoint = checkpoint.model_checkpoint_path
 saver = tf.train.import_meta_graph(
     input_checkpoint + '.meta', clear_devices=True)
 ```
-##### 2.4.3 预测计算
+### 2.4.3 预测计算
 ```python
 config = tf.ConfigProto(allow_soft_placement=True)
 config.gpu_options.allow_growth = True
@@ -204,7 +223,7 @@ pred = sess.run(prob_tensor,feed_dict={inputs:x_data})
 print(pred)
 
 ```
-#### 2.5 完整代码
+## 2.5 完整代码
 包括训练数据，训练tensorflow代码，测试数据，测试tensorflow代码
 * github托管地址：[https://github.com/Ronnieqaz/tensorFlowForHousePrice.git](https://github.com/Ronnieqaz/tensorFlowForHousePrice.git)
 
