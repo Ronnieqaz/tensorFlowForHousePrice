@@ -24,6 +24,7 @@
 这个问题要解决的就是找到成交价（Prize）和卧室数量（RoomNum）、房屋面积（AreaHouse）、阳台面积（AreaBalcony）
 之间的关系。就像是小学时做的数学测验：
 ![mathTest](https://github.com/Ronnieqaz/tensorFlowForHousePrice/blob/master/Images/mathTest.jpg)
+
 然后给出任意的卧室数量、房屋面积、阳台面积，就能确定成交价了。
 
 使用TensorFlow解决此问题的步骤包括：
