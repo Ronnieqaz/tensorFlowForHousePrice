@@ -23,7 +23,7 @@
 # 2. TensorFlow解决思路
 这个问题要解决的就是找到成交价（Prize）和卧室数量（RoomNum）、房屋面积（AreaHouse）、阳台面积（AreaBalcony）
 之间的关系。就像是小学时做的数学测验：
-![6c0309b17764fcd1d415b3989e39e58a.jpeg](evernotecid://0F7C84DB-9663-4FC7-B768-B8A6DD0BD29F/appyinxiangcom/20498392/ENNote/p145?hash=6c0309b17764fcd1d415b3989e39e58a)
+![mathTest](https://github.com/Ronnieqaz/tensorFlowForHousePrice/blob/master/Images/mathTest.jpg)
 然后给出任意的卧室数量、房屋面积、阳台面积，就能确定成交价了。
 
 使用TensorFlow解决此问题的步骤包括：
@@ -33,7 +33,7 @@
 * 测试
 ## 2.1 准备数据
 本次的训练数据（测试数据）是一张excel表，如下图所示：
-![1b21b7daad58461e7c007acc94253919.png](evernotecid://0F7C84DB-9663-4FC7-B768-B8A6DD0BD29F/appyinxiangcom/20498392/ENResource/p436)
+![data](https://github.com/Ronnieqaz/tensorFlowForHousePrice/blob/master/Images/data.jpg)
 ## 2.2 规划神经网络
 ### 2.2.1 神经网络架构
 * 输入层：
@@ -42,7 +42,7 @@
 为了简单起见，1个隐层，隐层包括20个神经元（下图中由于篇幅，隐层只列出10个神经元）；
 * 输出层
 只有成交价1个输出，所以，1个神经元。
-![799d7d7aa0b1dea97ea6d463ecb5b8df.png](evernotecid://0F7C84DB-9663-4FC7-B768-B8A6DD0BD29F/appyinxiangcom/20498392/ENResource/p437)
+![net](https://github.com/Ronnieqaz/tensorFlowForHousePrice/blob/master/Images/net.jpg)
 ### 2.2.2 激活函数与代价计算
 * 激活函数
 选用relu（）函数，relu是广泛使用的激活函数，关于relu函数请参考机器学习的相关介绍；
